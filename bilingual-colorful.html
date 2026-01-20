@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双语阅读笔记</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 16px;
+            line-height: 1.8;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            color: #37352f;
+            background: #fff;
+        }
+        
+        p {
+            margin: 15px 0;
+        }
+        
+        /* 基础hover样式 */
+        .h {
+            display: inline;
+            position: relative;
+            cursor: help;
+            padding: 2px 0;
+            border-radius: 2px;
+            transition: all 0.2s;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+        }
+        
+        /* 不同颜色 - 浅色背景 + 深色下划线 */
+        .green {
+            background-color: rgba(0, 135, 107, 0.15);
+            text-decoration-color: #00875b;
+        }
+        .green:hover {
+            background-color: rgba(0, 135, 107, 0.3);
+        }
+        
+        .blue {
+            background-color: rgba(0, 82, 204, 0.15);
+            text-decoration-color: #0052cc;
+        }
+        .blue:hover {
+            background-color: rgba(0, 82, 204, 0.3);
+        }
+        
+        .purple {
+            background-color: rgba(103, 36, 222, 0.15);
+            text-decoration-color: #6724de;
+        }
+        .purple:hover {
+            background-color: rgba(103, 36, 222, 0.3);
+        }
+        
+        .pink {
+            background-color: rgba(224, 49, 79, 0.15);
+            text-decoration-color: #e0314f;
+        }
+        .pink:hover {
+            background-color: rgba(224, 49, 79, 0.3);
+        }
+        
+        .yellow {
+            background-color: rgba(255, 171, 0, 0.2);
+            text-decoration-color: #ff8b00;
+        }
+        .yellow:hover {
+            background-color: rgba(255, 171, 0, 0.35);
+        }
+        
+        .orange {
+            background-color: rgba(255, 86, 48, 0.15);
+            text-decoration-color: #ff5630;
+        }
+        .orange:hover {
+            background-color: rgba(255, 86, 48, 0.3);
+        }
+        
+        .red {
+            background-color: rgba(222, 53, 11, 0.15);
+            text-decoration-color: #de350b;
+        }
+        .red:hover {
+            background-color: rgba(222, 53, 11, 0.3);
+        }
+        
+        .gray {
+            background-color: rgba(9, 30, 66, 0.08);
+            text-decoration-color: #5e6c84;
+        }
+        .gray:hover {
+            background-color: rgba(9, 30, 66, 0.15);
+        }
+        
+        /* Hover提示框 */
+        .h::before {
+            content: attr(data-en);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #2c3e50;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            font-style: italic;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            z-index: 1000;
+        }
+        
+        .h::after {
+            content: "";
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            border: 5px solid transparent;
+            border-top-color: #2c3e50;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .h:hover::before,
+        .h:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <p>
+        我从七岁开始就<span class="h green" data-en="dream of">梦想着</span>去巴黎。以前我的整个房间都是巴黎主题的装饰，真的不是在开玩笑。我一直想着去，但我<span class="h gray" data-en="never had the chance to">从来没有去过</span>法国。而今天就是去巴黎的日子。嗯，应该说是明天，因为我明天<span class="h purple" data-en="take a plane">坐飞机走</span>。<span class="h green" data-en="over the past few months">过去几个月里</span>，基本上我和我一个最好的朋友Nia一直在为这次旅行做计划。我们会去巴黎，然后去<span class="h blue" data-en="South of France">南法</span>。我想拍个旅行Vlog，因为上次我去欧洲的时候，我<span class="h pink" data-en="envy you guys">羡慕了你们</span>。我没拍旅行Vlog，说实话，我一直<span class="h orange" data-en="feel guilty">感到很内疚</span>。旅行Vlog真的很有趣，它就像一个小小的<span class="h blue" data-en="digital travel diary">电子旅行日记</span>，方便<span class="h blue" data-en="look back">回看</span>。现在是晚上七点钟。我明早六点就得去机场。那么问题来了：<span class="h red" data-en="Did I pack my luggage?">我打包好行李了吗</span>？
+    </p>
+
+    <!-- 
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    📝 修改说明
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    
+    格式：<span class="h 颜色" data-en="英文原文">中文文字</span>
+    
+    可用颜色：
+    green   - 绿色
+    blue    - 蓝色  
+    purple  - 紫色
+    pink    - 粉色
+    yellow  - 黄色
+    orange  - 橙色
+    red     - 红色
+    gray    - 灰色
+    
+    示例：
+    
+    我今天<span class="h green" data-en="run into">遇到了</span>老朋友
+    这个想法很<span class="h yellow" data-en="brilliant">棒</span>
+    他感到<span class="h red" data-en="angry">生气</span>
+    
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    -->
+</body>
+</html>
