@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双语阅读 - 空白框填空</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            font-size: 18px;
+            line-height: 2.2;
+            padding: 10px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            color: #333;
+            background: #fff;
+        }
+        
+        p {
+            margin: 25px 0;
+            text-align: justify;
+        }
+        
+        /* 空白框样式 */
+        .blank-box {
+            display: inline-block;
+            min-width: 80px;
+            padding: 0px 10px;
+            border: 1px solid #d0d0d0;
+            border-radius: 3px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            vertical-align: baseline;
+            position: relative;
+            --answer-color: #2196f3;
+        }
+        
+        .blank-box:hover {
+            border-color: #2196f3;
+            background: #f8f9fa;
+        }
+        
+        /* 空白框内容 */
+        .blank-content {
+            display: inline;
+            font-weight: 600;
+            color: transparent;
+            user-select: none;
+        }
+        
+        /* 显示答案时 */
+        .blank-box.show .blank-content {
+            color: var(--answer-color);
+        }
+        
+
+        
+
+        /* 提示文字 */
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .hint.show {
+            opacity: 1;
+        }
+        
+
+    </style>
+</head>
+<body>
+
+
+    
+    <!-- 提示文字 -->
+    <div class="hint" id="hint">💡 点击空白框显示/隐藏答案</div>
+    
+    <p>
+        I just <span class="blank-box" data-answer="got out of the shower" data-color="#d68000"><span class="blank-content">got out of the shower</span></span>, I <span class="blank-box" data-answer="dried my hair" data-color="#6a1b9a"><span class="blank-content">dried my hair</span></span>. And I'm just going to <span class="blank-box" data-answer="put on a little makeup" data-color="#0097a7"><span class="blank-content">put on a little makeup</span></span> today, mostly like SPF, just because it's actually <span class="blank-box" data-answer="pretty sunny out" data-color="#2e7d32"><span class="blank-content">pretty sunny out</span></span> which I'm happy. The sun, I feel like I've told you guys this <span class="blank-box" data-answer="a million times" data-color="#1565c0"><span class="blank-content">a million times</span></span>, really affects my mood. The winters in Minnesota where I'm from are <span class="blank-box" data-answer="especially dark" data-color="#424242"><span class="blank-content">especially dark</span></span>, just like very dark and <span class="blank-box" data-answer="dreary" data-color="#d84315"><span class="blank-content">dreary</span></span>. Then when I <span class="blank-box" data-answer="moved to" data-color="#ad1457"><span class="blank-content">moved to</span></span> California, I was like, this is amazing. Why is it never <span class="blank-box" data-answer="dreary" data-color="#c62828"><span class="blank-content">dreary</span></span> here?
+    </p>
+
+    <script>
+        // 获取所有空白框
+        const blanks = document.querySelectorAll('.blank-box');
+        const hint = document.getElementById('hint');
+        
+        // 显示提示
+        setTimeout(() => {
+            hint.classList.add('show');
+            setTimeout(() => {
+                hint.classList.remove('show');
+            }, 3000);
+        }, 500);
+        
+        // 为每个空白框添加点击事件
+        blanks.forEach(blank => {
+            // 获取自定义颜色
+            const color = blank.getAttribute('data-color') || '#2196f3';
+            
+            // 设置答案颜色
+            blank.style.setProperty('--answer-color', color);
+            
+            // 点击切换显示/隐藏
+            blank.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('show');
+            });
+        });
+    </script>
+
+    <!-- 
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    📝 使用说明
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    
+    功能：
+    点击空白框 → 显示答案
+    再次点击 → 隐藏答案
+    
+    添加新空白框格式：
+    <span class="blank-box" data-answer="答案内容" data-color="颜色代码">
+        <span class="blank-content">答案内容</span>
+    </span>
+    
+    示例（默认蓝色）：
+    <span class="blank-box" data-answer="got out of the shower">
+        <span class="blank-content">got out of the shower</span>
+    </span>
+    
+    示例（自定义黄色）：
+    <span class="blank-box" data-answer="got out of the shower" data-color="#d68000">
+        <span class="blank-content">got out of the shower</span>
+    </span>
+    
+    常用颜色代码：
+    黄色：#d68000  绿色：#2e7d32  蓝色：#1565c0  紫色：#6a1b9a
+    粉色：#ad1457  橙色：#d84315  红色：#c62828  灰色：#424242  青色：#0097a7
+    
+    注意：
+    - data-answer 和 blank-content 内容要相同
+    - data-color 是可选的，不设置则默认蓝色
+    - 英文使用 Times New Roman 字体
+    
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    -->
+</body>
+</html>
