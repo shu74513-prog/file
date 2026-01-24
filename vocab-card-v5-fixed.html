@@ -694,25 +694,28 @@
         const audioStates = {};
         
         function playOriginal(id) {
-            if (!audioCache[id]) {
-                audioCache[id] = new Audio(`./videos/${id}.mp4`);
-                audioCache[id].addEventListener('error', function(e) {
-                    console.error('音频加载失败:', id);
-                    alert('音频文件加载失败\n请确保视频文件存在：./videos/' + id + '.mp4');
-                });
-            }
-            
-            const audio = audioCache[id];
-            if (audioStates[id]) {
-                audio.loop = audioStates[id].repeat || false;
-                audio.playbackRate = audioStates[id].speed || 1;
-            }
-            
-            audio.currentTime = 0;
-            audio.play().catch(function(error) {
-                console.error('播放失败:', error);
-            });
-        }
+    if (!audioCache[id]) {
+        // ✅ 改为 .mp3
+        audioCache[id] = new Audio(`./videos/${id}.mp3`);
+        
+        audioCache[id].addEventListener('error', function(e) {
+            console.error('音频加载失败:', id);
+            // ✅ 改为 .mp3
+            alert('音频文件加载失败\n请确保音频文件存在：./videos/' + id + '.mp3');
+        });
+    }
+    
+    const audio = audioCache[id];
+    if (audioStates[id]) {
+        audio.loop = audioStates[id].repeat || false;
+        audio.playbackRate = audioStates[id].speed || 1;
+    }
+    
+    audio.currentTime = 0;
+    audio.play().catch(function(error) {
+        console.error('播放失败:', error);
+    });
+}
         
         // ============================================
         // 循环播放功能
