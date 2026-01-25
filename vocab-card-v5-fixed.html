@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary Card V5 - Fixed</title>
+    <style>
+        /* ============================================
+           颜色配置区域 - 在这里自由设置颜色
+           ============================================ */
+        :root {
+            /* 单词颜色（可以修改为任何颜色） */
+            --word-color: #6c757d;
+        }
+        /* ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, "PingFang SC", -apple-system, BlinkMacSystemFont, serif;
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+        
+        /* 中文字体 */
+        .chinese {
+            font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
+        }
+        
+        /* 英文字体 */
+        .english {
+            font-family: Georgia, serif;
+        }
+        
+        /* 卡片容器 */
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 100%;
+            padding: 40px 50px;
+        }
+        
+        /* 标题行（单词+音标+按钮） */
+        .title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        /* 单词标题 */
+        .word-title {
+            font-size: 52px;
+            font-weight: normal;
+            color: var(--word-color);
+            font-family: Georgia, serif;
+        }
+        
+        /* 音标 */
+        .phonetic {
+            font-size: 24px;
+            color: var(--word-color);
+            font-family: "Lucida Sans Unicode", "DejaVu Sans", "Arial Unicode MS", sans-serif;
+        }
+        
+        /* 按钮容器 */
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 图标按钮 */
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #6c757d;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+        
+        .icon-btn:hover {
+            color: #495057;
+        }
+        
+        .favorite-btn.active {
+            color: #e74c3c;
+        }
+        
+        /* 中文释义 */
+        .translation-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #212529;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        /* 分组 */
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        /* 分组标题 */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212529;
+            font-family: "PingFang SC", sans-serif;
+            display: inline;
+            margin-right: 10px;
+        }
+        
+        /* 内容 */
+        .section-content {
+            display: inline;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #212529;
+            font-family: Georgia, serif;
+        }
+        
+        /* 例句区域（可折叠） */
+        .example-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .example-cn {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #212529;
+            font-family: "PingFang SC", sans-serif;
+            flex: 1;
+        }
+        
+        .expand-btn {
+            font-size: 18px;
+            color: #6c757d;
+            transition: transform 0.3s;
+        }
+        
+        .expand-btn.expanded {
+            transform: rotate(180deg);
+        }
+        
+        .example-content {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        
+        .example-content.show {
+            display: block;
+        }
+        
+        .example-en {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #495057;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+        
+        /* 同义表达容器 */
+        .expressions-container {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .expression-tag {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            color: #495057;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-family: Georgia, serif;
+        }
+        
+        /* 相关表达项 */
+        .related-item {
+            margin-top: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .related-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .related-phrase {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212529;
+            font-family: Georgia, serif;
+        }
+        
+        .related-translation {
+            font-size: 18px;
+            color: #6c757d;
+            font-family: "PingFang SC", sans-serif;
+        }
+        
+        .related-example {
+            font-size: 18px;
+            font-style: italic;
+            color: #495057;
+            font-family: Georgia, serif;
+            margin-bottom: 8px;
+        }
+        
+        .related-example-cn {
+            font-size: 18px;
+            color: #6c757d;
+            font-family: "PingFang SC", sans-serif;
+            margin-bottom: 12px;
+        }
+        
+        .related-note {
+            font-size: 17px;
+            color: #6c757d;
+            font-family: "PingFang SC", sans-serif;
+            padding-left: 15px;
+            border-left: 3px solid #dee2e6;
+        }
+        
+        /* 原文例句部分（可折叠+独立滚动） */
+        .original-examples {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .original-header-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .original-header-row:hover .original-expand-btn {
+            color: #495057;
+        }
+        
+        .original-header-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212529;
+            font-family: "PingFang SC", sans-serif;
+        }
+        
+        /* 统计标签 */
+        .stats-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: white;
+            border: 1.5px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 16px;
+            color: #6c757d;
+            font-family: "PingFang SC", sans-serif;
+        }
+        
+        .stats-divider {
+            color: #dee2e6;
+        }
+        
+        .original-expand-btn {
+            font-size: 18px;
+            color: #6c757d;
+            transition: transform 0.3s, color 0.2s;
+            margin-left: auto;
+        }
+        
+        .original-expand-btn.expanded {
+            transform: rotate(180deg);
+        }
+        
+        /* 原文内容区域（独立滚动） */
+        .original-content {
+            display: none;
+            max-height: 500px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 10px;
+        }
+        
+        .original-content.show {
+            display: block;
+        }
+        
+        /* 滚动条样式 */
+        .original-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .original-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .original-content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .original-content::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        .original-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        /* 期数标签 */
+        .episode-tag {
+            display: inline-block;
+            background: white;
+            border: 1.5px solid #dee2e6;
+            color: #6c757d;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .original-en {
+            font-size: 19px;
+            line-height: 1.8;
+            color: #212529;
+            font-family: Georgia, serif;
+            margin-bottom: 10px;
+        }
+        
+        .original-cn {
+            font-size: 19px;
+            line-height: 1.8;
+            color: #6c757d;
+            font-family: "PingFang SC", sans-serif;
+            margin-bottom: 15px;
+        }
+        
+        /* 高亮单词/短语 */
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        /* 音频控制按钮 */
+        .audio-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .audio-btn {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 1.5px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #6c757d;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            padding: 0;
+        }
+        
+        .audio-btn:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+            color: #495057;
+        }
+        
+        .audio-btn.active {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        /* 速度输入框 */
+        .speed-input {
+            min-width: 50px;
+            padding: 6px 12px;
+            border: 1.5px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #6c757d;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-family: -apple-system, sans-serif;
+            transition: all 0.2s;
+            outline: none;
+        }
+        
+        .speed-input:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+        }
+        
+        .speed-input[contenteditable="true"] {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1976d2;
+            cursor: text;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 25px;
+            }
+            
+            .title-row {
+                flex-wrap: wrap;
+            }
+            
+            .word-title {
+                font-size: 40px;
+            }
+            
+            .original-content {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- 标题行：单词 + 音标 + 发音 + 收藏 -->
+        <div class="title-row">
+            <h1 class="word-title english" id="wordTitle">serendipity</h1>
+            <span class="phonetic" id="wordPhonetic">/ ˌserənˈdɪpɪti /</span>
+            <div class="buttons">
+                <button class="icon-btn sound-btn" onclick="playSound('serendipity')" title="发音">🔊</button>
+                <button class="icon-btn favorite-btn" onclick="toggleFavorite(this)" title="收藏">♡</button>
+            </div>
+        </div>
+        
+        <!-- 中文释义 -->
+        <p class="translation-text chinese" id="wordTranslation">意外发现珍奇事物的本领；机缘巧合</p>
+        
+        <!-- 英英释义 -->
+        <div class="section">
+            <h2 class="section-title chinese">英英释义：</h2>
+            <span class="section-content english">The occurrence of events by chance in a happy or beneficial way.</span>
+        </div>
+        
+        <!-- 例句（可折叠） -->
+        <div class="section">
+            <div class="example-header" onclick="toggleExample(this)">
+                <h2 class="section-title chinese">例句：</h2>
+                <span class="example-cn chinese">我们多年后在咖啡店相遇，这纯粹是一种机缘巧合。</span>
+                <span class="expand-btn">▼</span>
+            </div>
+            <div class="example-content">
+                <p class="example-en english">It was pure serendipity that we met at the coffee shop after so many years.</p>
+            </div>
+        </div>
+        
+        <!-- 同义表达 -->
+        <div class="section">
+            <h2 class="section-title chinese">同义表达：</h2>
+            <div class="expressions-container">
+                <span class="expression-tag english">luck</span>
+                <span class="expression-tag english">fortune</span>
+                <span class="expression-tag english">happy accident</span>
+            </div>
+        </div>
+        
+        <!-- 相关表达 -->
+        <div class="section">
+            <h2 class="section-title chinese">相关表达：</h2>
+            
+            <div class="related-item">
+                <div class="related-header">
+                    <span class="related-phrase english">by chance</span>
+                    <span class="related-translation chinese">偶然地；碰巧</span>
+                </div>
+                <div class="related-example english">We met by chance at the airport.</div>
+                <div class="related-example-cn chinese">我们在机场偶然相遇。</div>
+                <div class="related-note chinese">💡 强调事情发生的偶然性，常用于描述意外的相遇或发现。</div>
+            </div>
+            
+            <div class="related-item">
+                <div class="related-header">
+                    <span class="related-phrase english">stroke of luck</span>
+                    <span class="related-translation chinese">一次好运；幸运的事</span>
+                </div>
+                <div class="related-example english">Finding that job was a real stroke of luck.</div>
+                <div class="related-example-cn chinese">找到那份工作真是一次好运。</div>
+                <div class="related-note chinese">💡 指突然降临的好运气，通常是意想不到的积极结果。</div>
+            </div>
+        </div>
+        
+        <!-- 原文例句部分（可折叠+独立滚动） -->
+        <div class="original-examples">
+            <div class="original-header-row" onclick="toggleOriginalExamples(this)">
+                <h2 class="original-header-title">原文例句：</h2>
+                <div class="stats-badge">
+                    <span>3期</span>
+                    <span class="stats-divider">|</span>
+                    <span>例句4</span>
+                </div>
+                <span class="original-expand-btn">▼</span>
+            </div>
+            
+            <!-- 独立滚动的内容区域 -->
+            <div class="original-content">
+                <div class="original-item">
+                    <span class="episode-tag">EP5</span>
+                    <div class="original-en english">And then <span class="highlight">the second</span> we get on Face Time or meet up, it's like no time has passed.</div>
+                    <div class="original-cn chinese">但每次一开视频或见面时，感觉就像时间从未流逝。</div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" onclick="playOriginal('ep5-1')" title="播放">▷</button>
+                        <button class="audio-btn" onclick="toggleRepeat(this, 'ep5-1')" title="循环播放">⟲</button>
+                        <span class="speed-input" 
+                              onclick="enableSpeedEdit(this, 'ep5-1')"
+                              title="点击编辑速度">1x</span>
+                    </div>
+                </div>
+                
+                <div class="original-item">
+                    <span class="episode-tag">EP13</span>
+                    <div class="original-en english">It was pure <span class="highlight">serendipity</span> that we met at the coffee shop after so many years.</div>
+                    <div class="original-cn chinese">我们多年后在咖啡店相遇，这纯粹是一种机缘巧合。</div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" onclick="playOriginal('ep13-1')" title="播放">▷</button>
+                        <button class="audio-btn" onclick="toggleRepeat(this, 'ep13-1')" title="循环播放">⟲</button>
+                        <span class="speed-input" 
+                              onclick="enableSpeedEdit(this, 'ep13-1')"
+                              title="点击编辑速度">1x</span>
+                    </div>
+                </div>
+                
+                <div class="original-item">
+                    <span class="episode-tag">EP13</span>
+                    <div class="original-en english">The scientist's discovery was a result of <span class="highlight">serendipity</span> rather than careful planning.</div>
+                    <div class="original-cn chinese">科学家的发现是机缘巧合的结果，而非精心策划。</div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" onclick="playOriginal('ep13-2')" title="播放">▷</button>
+                        <button class="audio-btn" onclick="toggleRepeat(this, 'ep13-2')" title="循环播放">⟲</button>
+                        <span class="speed-input" 
+                              onclick="enableSpeedEdit(this, 'ep13-2')"
+                              title="点击编辑速度">1x</span>
+                    </div>
+                </div>
+                
+                <div class="original-item">
+                    <span class="episode-tag">EP20</span>
+                    <div class="original-en english">Finding this apartment was complete <span class="highlight">serendipity</span> - it was exactly what we needed.</div>
+                    <div class="original-cn chinese">找到这套公寓完全是机缘巧合——正是我们需要的。</div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" onclick="playOriginal('ep20-1')" title="播放">▷</button>
+                        <button class="audio-btn" onclick="toggleRepeat(this, 'ep20-1')" title="循环播放">⟲</button>
+                        <span class="speed-input" 
+                              onclick="enableSpeedEdit(this, 'ep20-1')"
+                              title="点击编辑速度">1x</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================
+        // 收藏功能（使用V4的简单逻辑）
+        // ============================================
+        
+        function toggleFavorite(btn) {
+            const wordData = {
+                word: document.getElementById('wordTitle').textContent.trim(),
+                phonetic: document.getElementById('wordPhonetic').textContent.trim(),
+                translation: document.getElementById('wordTranslation').textContent.trim(),
+                favoriteTime: new Date().toISOString()
+            };
+            
+            // 切换active类
+            btn.classList.toggle('active');
+            
+            // 获取localStorage中的收藏
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+            
+            if (btn.classList.contains('active')) {
+                // ====== 添加收藏 ======
+                btn.textContent = '❤';
+                favorites[wordData.word] = wordData;
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                console.log('✓ 已收藏:', wordData.word);
+            } else {
+                // ====== 取消收藏 ======
+                btn.textContent = '♡';
+                delete favorites[wordData.word];
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                console.log('✓ 取消收藏:', wordData.word);
+            }
+            
+            console.log('当前收藏总数:', Object.keys(favorites).length);
+        }
+        
+        // 页面加载时检查收藏状态
+        window.addEventListener('DOMContentLoaded', function() {
+            const word = document.getElementById('wordTitle').textContent.trim();
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+            const btn = document.querySelector('.favorite-btn');
+            
+            if (favorites[word]) {
+                btn.classList.add('active');
+                btn.textContent = '❤';
+                console.log('此单词已收藏:', word);
+            } else {
+                console.log('此单词未收藏:', word);
+            }
+            
+            console.log('当前收藏总数:', Object.keys(favorites).length);
+        });
+        
+        // ============================================
+        // 单词发音
+        // ============================================
+        
+        function playSound(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('您的浏览器不支持语音合成功能');
+            }
+        }
+        
+        // ============================================
+        // 折叠功能
+        // ============================================
+        
+        function toggleExample(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.expand-btn');
+            content.classList.toggle('show');
+            arrow.classList.toggle('expanded');
+        }
+        
+        function toggleOriginalExamples(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.original-expand-btn');
+            content.classList.toggle('show');
+            arrow.classList.toggle('expanded');
+        }
+        
+        // ============================================
+        // 视频/音频播放功能
+        // ============================================
+        
+        const audioCache = {};
+        const audioStates = {};
+        
+        function playOriginal(id) {
+            if (!audioCache[id]) {
+                // 使用相对路径加载MP3音频
+                audioCache[id] = new Audio(`./videos/${id}.mp3`);
+                audioCache[id].addEventListener('error', function(e) {
+                    console.error('音频加载失败:', id);
+                    alert('音频文件加载失败\n请确保音频文件存在：./videos/' + id + '.mp3');
+                });
+            }
+            
+            const audio = audioCache[id];
+            if (audioStates[id]) {
+                audio.loop = audioStates[id].repeat || false;
+                audio.playbackRate = audioStates[id].speed || 1;
+            }
+            
+            audio.currentTime = 0;
+            audio.play().catch(function(error) {
+                console.error('播放失败:', error);
+            });
+        }
+        
+        // ============================================
+        // 循环播放功能
+        // ============================================
+        
+        function toggleRepeat(btn, id) {
+            if (!audioStates[id]) {
+                audioStates[id] = { repeat: false, speed: 1 };
+            }
+            
+            audioStates[id].repeat = !audioStates[id].repeat;
+            btn.classList.toggle('active');
+            
+            if (audioCache[id]) {
+                audioCache[id].loop = audioStates[id].repeat;
+            }
+            
+            console.log('循环播放' + (audioStates[id].repeat ? '开启' : '关闭') + ':', id);
+        }
+        
+        // ============================================
+        // 播放速度可编辑功能
+        // ============================================
+        
+        function enableSpeedEdit(element, audioId) {
+            if (element.getAttribute('contenteditable') === 'true') {
+                return;
+            }
+            
+            const originalValue = element.textContent;
+            element.textContent = originalValue.replace('x', '');
+            element.setAttribute('contenteditable', 'true');
+            element.focus();
+            
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            const handleEnter = function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applySpeed(element, audioId);
+                }
+            };
+            
+            const handleBlur = function() {
+                applySpeed(element, audioId);
+            };
+            
+            element.addEventListener('keydown', handleEnter);
+            element.addEventListener('blur', handleBlur);
+            element._handleEnter = handleEnter;
+            element._handleBlur = handleBlur;
+        }
+        
+        function applySpeed(element, audioId) {
+            if (element._handleEnter) {
+                element.removeEventListener('keydown', element._handleEnter);
+                element.removeEventListener('blur', element._handleBlur);
+                delete element._handleEnter;
+                delete element._handleBlur;
+            }
+            
+            let speedText = element.textContent.trim().replace('x', '');
+            let speed = parseFloat(speedText);
+            
+            if (isNaN(speed) || speed < 0.5 || speed > 2) {
+                speed = Math.max(0.5, Math.min(2, speed || 1));
+            }
+            
+            speed = Math.round(speed * 10) / 10;
+            element.textContent = speed + 'x';
+            
+            if (!audioStates[audioId]) {
+                audioStates[audioId] = { repeat: false, speed: 1 };
+            }
+            audioStates[audioId].speed = speed;
+            
+            if (audioCache[audioId]) {
+                audioCache[audioId].playbackRate = speed;
+            }
+            
+            element.setAttribute('contenteditable', 'false');
+            element.blur();
+            console.log('播放速度设置为:', speed, 'for', audioId);
+        }
+    </script>
+</body>
+</html>
